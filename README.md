@@ -91,3 +91,15 @@ deployment.apps/echo-hname configured
 | 기능 유지  | 제한적  | 지원함    | 다양하게 지원함 |
 
 
+##### 파드의 컨테이너 자동 복구
+
+```shell
+kubectl delete pods nginx-pods
+# 디플로이먼트에 속한 파드도 아니고 어떤 컨트롤러도 이 파드를 관리 하지 않음 => 바로 삭제되고 바로 생성됨
+
+kubectl delete pods echo-hname-7894b67f-24r57
+# 디플로이먼트에 의해 관리 되고 있으므로 다른 이름으로 재 생성됨(deployment에서 replicas =6으로 선언했기 때문에 6개로 맞추기 위해 서)
+
+kubectl delete deployment echo-hname
+# 디플로이먼트에 속한 파드는 상위 디플로이먼트를 삭제해야 파드가 삭제됨.
+```
